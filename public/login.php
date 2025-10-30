@@ -37,9 +37,9 @@ require_once ('../src/functions.php');
     </form>
     <?php
 
-   if (isset($_POST['Submit']) && (check_login ($_POST['Username'] , $_POST['Password'] )))
+   if (isset($_POST['Submit']) && (check_login (escape($_POST['Username']) , escape($_POST['Password']) )))
    { /* Success: Set session variables and redirect to protected page */
-       $_SESSION['Username'] = $_POST['Username']; //store Username to the session
+       $_SESSION['Username'] = escape($_POST['Username']); //store Username to the session
        $_SESSION['Active'] = true; //set session to active
        header("location:index.php"); /* 'header() is used to redirect the browser */
        exit; //just used header() to redirect to another page but must terminate all current code so that it doesn’t run when we redirect
