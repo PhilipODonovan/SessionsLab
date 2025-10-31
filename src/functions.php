@@ -24,19 +24,23 @@ function check_login($user, $pass)
         echo $sql . "<br>" . $error->getMessage();
     }
 
-    echo $statement->rowCount();
+//    echo $statement->rowCount();
 
     foreach ($result as $row) {
-        var_dump($row);
-        if ($row["password"] == $pass && $statement->rowCount() == 1) //need to have only one match on the name and password
+//        var_dump($row);
+
+       if ($row["password"] == $pass && $statement->rowCount() == 1) //need to have only one match on the name and password
         {
 
             echo 'Success';
             return true;
-        } else
-            echo 'Incorrect Username or Password';
-        return false;
+        }
+        else{
+            return false;
+        }
     }
+
+
 }
 
 function escape($data)
