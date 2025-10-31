@@ -15,34 +15,49 @@
 
 <td><button name="Register" value="Login" class="button" type="submit">Register</button</td></tr>
 
-</table>
-</form>
+
 <?php
 
 if (isset($_POST['Register']) && (escape($_POST['Password']) == escape($_POST['Password2']) ))
 { /* Success: Save to DB and redirect to login page */
     try {
         require "../src/DBconnect.php";
+        $user=escape($_POST['Username']);
+        $sql = "SELECT * FROM users WHERE firstname = :firstname";
+        $statement = $connection->prepare($sql);
+        $statement->bindParam(':firstname', $user, PDO::PARAM_STR);
+        $statement->execute();
+        $count = $statement->rowCount();
 
-    $new_user = array(
+        if ($count > 0) {
+
+            echo '<tr><td></td><td>Username '. $user.' already exists, </td></tr>';
+            echo '<tr><td></td><td>Go to <a href="login.php">Login Page</a></td></tr>';
+        }
+        else{
+
+//            echo '<tr><td></td><td>'.$count.' found</td></tr>';
+        $new_user = array(
             "firstname" => escape($_POST['Username']),
             "password" => escape($_POST['Password'])
-    );
+            );
 
     $sql = sprintf("INSERT INTO %s (%s) values (%s)", "users",
             implode(", ", array_keys($new_user)),
             ":" . implode(", :", array_keys($new_user)));
 //    echo $sql;
-   $statement = $connection->prepare($sql);
+    $statement = $connection->prepare($sql);
     $statement->execute($new_user);
-
+    echo '<tr><td></td><td>User added, go to <a href="login.php">Login Page</a></td></tr>';
+    }
     }
     catch(PDOException $error) {
         echo $sql . "<br>" . $error->getMessage();
     }
 
-    header("location:login.php"); /* 'header() is used to redirect the browser */
-    exit; //just used header() to redirect to another page but must terminate all current code so that it doesn’t run when we redirect
+//    header("location:login.php"); /* 'header() is used to redirect the browser */
+//    exit; //just used header() to redirect to another page but must terminate all current code so that it doesn’t run when we redirect
+
 }
 
 
@@ -50,10 +65,8 @@ elseif (isset($_POST['Register']) && (escape($_POST['Password']) != escape($_POS
 
     echo '<tr><td></td><td>passwords do not match</td></tr>';
 
-
-
-
-
 }
 
 ?>
+</table>
+</form>
