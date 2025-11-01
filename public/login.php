@@ -32,7 +32,7 @@
 
        echo '<tr><td></td><td>Incorrect Username or Password</td></tr>';
        echo '<tr><td></td><td>Do you want to <a href="register.php">Register?</a></td></tr>';
-
+       echo '<tr><td></td><td>...or go to <a href="guest.php">Guest page</a></td></tr>';
 
 
 
