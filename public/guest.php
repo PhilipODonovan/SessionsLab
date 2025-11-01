@@ -20,10 +20,15 @@
 
         <div class="mainarea">
             <?php
-            if (isset($_SESSION['username'])) {
+            if (isset($_SESSION['Username'])) {
 
 
-             echo '<h1>Status: You are logged in ' .escape($_SESSION['Username']).'</h1>';
+            echo  '<h1>Status: You are logged in ' .escape($_SESSION['Username']).'</h1>';?>
+                <form action="logout.php" method="post" name="Logout_Form" class="form-signin">
+                <button name="Submit" value="Logout" class="button" type="submit">Log out</button>
+            </form>
+        </div>
+        <?php
             }
             else{
                 echo '<h1>Status: You are logged in as Guest</h1>';
